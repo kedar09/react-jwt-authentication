@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import LoginPage from "./components/pages/Authentication/Login/LoginPage";
+import HomePage from "./components/pages/HomePage/HomePage";
+import ForgotPasswordPage from "./components/pages/Authentication/Forgot-Password/ForgotPasswordPage";
+import SetNewPasswordPage from "./components/pages/Authentication/Set-New-Password/SetNewPasswordPage";
+import {PrivateRoute} from "./routes/PrivateRoute";
+// import { createBrowserHistory } from 'history';
+// const history = createBrowserHistory();
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        // <Router history={history}>
+        <Router>
+            <Switch>
+                <Route exact path="/" component={LoginPage}/>
+                <Route
+                    exact
+                    path="/forgot-password"
+                    component={ForgotPasswordPage}
+                />
+                <Route
+                    exact
+                    path="/set-new-password"
+                    component={SetNewPasswordPage}
+                />
+                <PrivateRoute path="/home-page" component={HomePage}/>
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;
