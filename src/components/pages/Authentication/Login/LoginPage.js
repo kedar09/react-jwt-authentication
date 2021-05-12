@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {Form, Button, Card} from "react-bootstrap";
 import {Formik} from "formik";
 import * as Yup from "yup";
-
+import Cookies from 'js-cookie';
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -57,14 +57,8 @@ class LoginPage extends Component {
                         .then(async (responseJson) => {
                           console.log(responseJson);
                           if (responseJson.authId) {
-                            await localStorage.setItem(
-                                "token",
-                                JSON.stringify(responseJson.token)
-                            );
-                            await localStorage.setItem(
-                                "authId",
-                                JSON.stringify(responseJson.authId)
-                            );
+                            Cookies.set('token', JSON.stringify(responseJson.token));
+                            Cookies.set('authId', JSON.stringify(responseJson.authId));
                             // this.setState({ user: true });
                             // const { from } = this.props.location.state || { from: { pathname: "/home-page" } };
                             this.props.history.push('/home-page');
