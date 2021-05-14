@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   let token = Cookies.get("token");
+  console.log(token);
   return (
     <Route
       {...rest}
@@ -22,3 +23,22 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
     />
   );
 };
+
+// let token = Cookies.get("token");
+//   return (
+//     <Route
+//       {...rest}
+//       render={(props) =>
+//         token ? (
+//           <Component {...props} />
+//         ) : (
+//           <Redirect
+//             to={{
+//               pathname: "/",
+//               state: { from: props.location },
+//             }}
+//           />
+//         )
+//       }
+//     />
+//   );

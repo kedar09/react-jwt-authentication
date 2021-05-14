@@ -21,6 +21,9 @@ class LoginPage extends Component {
     this.setState(state);
   };
 
+  componentDidMount() {
+    console.log('ddddddddddd',Cookies.get("token"));
+  }
   render() {
     return (
       <div>
@@ -56,11 +59,11 @@ class LoginPage extends Component {
                   .then((response) => response.json())
                   .then(async (responseJson) => {
                     console.log(responseJson);
-                    if (responseJson.authId) {
+                    if (responseJson.userId) {
                       Cookies.set("token", JSON.stringify(responseJson.token));
                       Cookies.set(
-                        "authId",
-                        JSON.stringify(responseJson.authId)
+                        "userId",
+                        JSON.stringify(responseJson.userId)
                       );
                       // this.setState({ user: true });
                       // const { from } = this.props.location.state || { from: { pathname: "/home-page" } };
@@ -134,9 +137,7 @@ class LoginPage extends Component {
                     <Button
                       style={{ marginTop: 20 }}
                       variant="link"
-                      onClick={() =>
-                        this.props.history.push("/forgot-password")
-                      }
+                      onClick={() => this.props.history.push("/register")}
                     >
                       Register new account?
                     </Button>
