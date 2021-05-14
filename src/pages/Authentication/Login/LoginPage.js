@@ -4,6 +4,7 @@ import { Form, Button, Card } from "react-bootstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
+import { loginService } from "../../../services/authentiacation.service";
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -21,8 +22,30 @@ class LoginPage extends Component {
     this.setState(state);
   };
 
-  componentDidMount() {
-    console.log('ddddddddddd',Cookies.get("token"));
+  async loginUser(values) {
+    try {
+      const payloadData = {
+        email: values.email,
+        password: values.password,
+      };
+      const result = await loginService(payloadData);
+      console.log("rrrrrrrr", result);
+      if (result && result.userId) {
+        Cookies.set("token", JSON.stringify(result.token), {
+          sameSite: "None",
+          secure: true,
+        });
+        Cookies.set("userId", JSON.stringify(result.userId), {
+          sameSite: "None",
+          secure: true,
+        });
+        // this.setState({ user: true });
+        // const { from } = this.props.location.state || { from: { pathname: "/home-page" } };
+        this.props.history.push("/home-page");
+      }
+    } catch (error) {
+      console.log("eeeeeeeeeee", error);
+    }
   }
   render() {
     return (
@@ -44,36 +67,7 @@ class LoginPage extends Component {
                   .required("Password is required"),
               })}
               onSubmit={(values) => {
-                let userData = {
-                  email: values.email,
-                  password: values.password,
-                };
-                fetch(`http://localhost:3001/auth/loginUser`, {
-                  method: "POST",
-                  headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(userData),
-                })
-                  .then((response) => response.json())
-                  .then(async (responseJson) => {
-                    console.log(responseJson);
-                    if (responseJson.userId) {
-                      Cookies.set("token", JSON.stringify(responseJson.token));
-                      Cookies.set(
-                        "userId",
-                        JSON.stringify(responseJson.userId)
-                      );
-                      // this.setState({ user: true });
-                      // const { from } = this.props.location.state || { from: { pathname: "/home-page" } };
-                      this.props.history.push("/home-page");
-                    }
-                    // alert(responseJson.message);
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
+                this.loginUser(values);
               }}
             >
               {(props) => (
