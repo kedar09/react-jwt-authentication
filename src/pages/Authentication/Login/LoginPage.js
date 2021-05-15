@@ -39,6 +39,9 @@ class LoginPage extends Component {
           sameSite: "None",
           secure: true,
         });
+        // localStorage.setItem("token", JSON.stringify(result.token));
+
+        // localStorage.setItem("userId", JSON.stringify(result.userId));
         // this.setState({ user: true });
         // const { from } = this.props.location.state || { from: { pathname: "/home-page" } };
         this.props.history.push("/home-page");
@@ -47,6 +50,13 @@ class LoginPage extends Component {
       console.log("eeeeeeeeeee", error);
     }
   }
+
+  // componentDidMount() {
+  //   if (Cookies.get("token")) {
+  //     this.props.history.push("/home-page");
+  //   }
+  // }
+
   render() {
     return (
       <div>

@@ -4,6 +4,7 @@ import { Form, Button, Card } from "react-bootstrap";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Cookies from "js-cookie";
+import { registerUserService } from "../../../services/authentiacation.service";
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,33 @@ class RegisterPage extends Component {
     state[e.target.name] = e.target.value;
     this.setState(state);
   };
+
+  async registerUser(values) {
+    try {
+      const payloadData = {
+        email: values.email,
+        password: values.password,
+        phoneNumber: values.phoneNumber.toString(),
+        displayName: values.displayName,
+      };
+      const result = await registerUserService(payloadData);
+      if (result && result.userId) {
+        Cookies.set("token", JSON.stringify(result.token), {
+          sameSite: "None",
+          secure: true,
+        });
+        Cookies.set("userId", JSON.stringify(result.userId), {
+          sameSite: "None",
+          secure: true,
+        });
+        // this.setState({ user: true });
+        // const { from } = this.props.location.state || { from: { pathname: "/home-page" } };
+        this.props.history.push("/home-page");
+      }
+    } catch (error) {
+      console.log("eeeeeeeeeee", error);
+    }
+  }
 
   render() {
     return (
@@ -55,39 +83,7 @@ class RegisterPage extends Component {
                 //   .max(100, "Password max 100 characters")
               })}
               onSubmit={(values) => {
-                console.log(values);
-                let userData = {
-                  email: values.email,
-                  password: values.password,
-                  phoneNumber: values.phoneNumber.toString(),
-                  displayName: values.displayName,
-                };
-                fetch(`http://localhost:3001/auth/registerUser`, {
-                  method: "POST",
-                  headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(userData),
-                })
-                  .then((response) => response.json())
-                  .then(async (responseJson) => {
-                    console.log(responseJson);
-                    if (responseJson.userId) {
-                      Cookies.set("token", JSON.stringify(responseJson.token));
-                      Cookies.set(
-                        "userId",
-                        JSON.stringify(responseJson.userId)
-                      );
-                      // this.setState({ user: true });
-                      // const { from } = this.props.location.state || { from: { pathname: "/home-page" } };
-                      this.props.history.push("/home-page");
-                    }
-                    // alert(responseJson.message);
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                  });
+                this.registerUser(values);
               }}
             >
               {(props) => (

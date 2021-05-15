@@ -1,10 +1,10 @@
 import React from "react";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoginPage from "../../pages/Authentication/Login/LoginPage";
 import HomePage from "../../pages/HomePage/HomePage";
 import ForgotPasswordPage from "../../pages/Authentication/Forgot-Password/ForgotPasswordPage";
 import SetNewPasswordPage from "../../pages/Authentication/Set-New-Password/SetNewPasswordPage";
-import {PrivateRoute} from "../Private-Route/PrivateRoute";
+import { PrivateRoute } from "../Private-Route/PrivateRoute";
 import RegisterPage from "../../pages/Authentication/Register/RegisterPage";
 
 const RootRoute = () => {
