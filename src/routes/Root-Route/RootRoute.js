@@ -6,16 +6,17 @@ import ForgotPasswordPage from "../../pages/Authentication/Forgot-Password/Forgo
 import SetNewPasswordPage from "../../pages/Authentication/Set-New-Password/SetNewPasswordPage";
 import { PrivateRoute } from "../Private-Route/PrivateRoute";
 import RegisterPage from "../../pages/Authentication/Register/RegisterPage";
+import { PublicRoute } from "../Public-Route/PublicRoute";
 
 const RootRoute = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={LoginPage} />
-        <Route exact path="/register" component={RegisterPage} />
-        <Route exact path="/forgot-password" component={ForgotPasswordPage} />
-        <Route exact path="/set-new-password" component={SetNewPasswordPage} />
-        <PrivateRoute path="/home-page" component={HomePage} />
+        <PublicRoute exact path="/" component={LoginPage} />
+        <PublicRoute exact path="/register" component={RegisterPage} />
+        <PublicRoute exact path="/forgot-password" component={ForgotPasswordPage} />
+        <PublicRoute exact path="/set-new-password" component={SetNewPasswordPage} />
+        <PrivateRoute exact path="/home-page" component={HomePage} />
       </Switch>
     </Router>
   );
