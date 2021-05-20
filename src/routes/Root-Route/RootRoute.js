@@ -15,7 +15,7 @@ const RootRoute = () => {
         <PublicRoute exact path="/" component={LoginPage} />
         <PublicRoute exact path="/register" component={RegisterPage} />
         <PublicRoute exact path="/forgot-password" component={ForgotPasswordPage} />
-        <PublicRoute exact path="/set-new-password" component={SetNewPasswordPage} />
+        <PrivateRoute exact path="/set-new-password" component={SetNewPasswordPage} />
         <PrivateRoute exact path="/home-page" component={HomePage} />
       </Switch>
     </Router>
