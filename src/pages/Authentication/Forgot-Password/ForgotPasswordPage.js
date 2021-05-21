@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useHistory } from "react-router";
 import Cookies from "js-cookie";
 import { forgotPasswordService } from "../../../services/authentiacation.service";
+import Swal from "sweetalert2";
 
 const ForgotPasswordPage = (props) => {
   const history = useHistory();
@@ -15,9 +16,31 @@ const ForgotPasswordPage = (props) => {
         email: values.email,
       };
       const result = await forgotPasswordService(payloadData);
+      console.log(result);
       if (result && result.userId) {
-        Cookies.set("token", JSON.stringify(result.token));
-        Cookies.set("userId", JSON.stringify(result.userId));
+        Swal.fire({
+          title: "Reset password link sent successfully!",
+          timer: 2000,
+          icon: "success",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (result && result.message === "User not found") {
+        Swal.fire({
+          title: "User not found!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else {
+        Swal.fire({
+          title: "Please try again later!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
       }
     } catch (error) {
       console.log("eeeeeeeeeee", error);

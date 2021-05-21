@@ -53,16 +53,16 @@ export const forgotPasswordService = async (payloadData) => {
 };
 
 export const setNewPasswordService = async (payloadData) => {
-  let token = Cookies.get("token");
+  // let token = Cookies.get("token");
   try {
-    const result = await fetch(`${API_URL}/auth/updateUserPassword`, {
-      method: "POST",
+    const result = await fetch(`${API_URL}/users/updateUserPassword`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${payloadData.token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(payloadData),
+      body: JSON.stringify(payloadData.payload),
     });
     const jsonResponse = await result.json();
     return jsonResponse;

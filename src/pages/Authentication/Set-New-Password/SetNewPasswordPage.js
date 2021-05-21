@@ -1,25 +1,44 @@
-import React, { Component } from "react";
-import { Alert, Button, Card, Form } from "react-bootstrap";
+import React from "react";
+import { Button, Card, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useHistory } from "react-router";
-import Cookies from "js-cookie";
+import { useHistory, useParams } from "react-router";
 import { setNewPasswordService } from "../../../services/authentiacation.service";
+import Swal from "sweetalert2";
 
 const SetNewPasswordPage = (props) => {
+  const params = useParams();
   const history = useHistory();
 
   const forgotPassword = async (values) => {
-    let userId = Cookies.get("userId");
     try {
       const payloadData = {
-        password: values.password,
+        payload: {
+          password: values.password,
+          userId: parseInt(params.userId),
+        },
+        token: params.token,
       };
       const result = await setNewPasswordService(payloadData);
-      if (result && result.userId) {
-        Cookies.set("token", JSON.stringify(result.token));
-        Cookies.set("userId", JSON.stringify(result.userId));
+      if (result && result.message === "User Password updated successfully!") {
+        Swal.fire({
+          title: "Password updated successfully!",
+          timer: 2000,
+          icon: "success",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+        history.push("/");
+      } else {
+        Swal.fire({
+          title: "Please try again later!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
       }
+      console.log(result);
     } catch (error) {
       console.log("eeeeeeeeeee", error);
     }

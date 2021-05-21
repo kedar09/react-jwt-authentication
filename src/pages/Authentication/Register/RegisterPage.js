@@ -6,6 +6,8 @@ import * as yup from "yup";
 import Cookies from "js-cookie";
 import { registerUserService } from "../../../services/authentiacation.service";
 import { useHistory } from "react-router";
+import Swal from "sweetalert2";
+
 const RegisterPage = (props) => {
   const history = useHistory();
   const registerUser = async (values) => {
@@ -17,6 +19,7 @@ const RegisterPage = (props) => {
         displayName: values.displayName,
       };
       const result = await registerUserService(payloadData);
+      console.log(result);
       if (result && result.userId) {
         Cookies.set("token", JSON.stringify(result.token), {
           sameSite: "None",
@@ -26,7 +29,30 @@ const RegisterPage = (props) => {
           sameSite: "None",
           secure: true,
         });
+        Swal.fire({
+          title: "User registered successfully!",
+          timer: 2000,
+          icon: "success",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
         history.push("/home-page");
+      } else if (result && result.message === "User Already registered") {
+        Swal.fire({
+          title: "Email address already exist!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else {
+        Swal.fire({
+          title: "Please try again later!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
       }
     } catch (error) {
       console.log("eeeeeeeeeee", error);

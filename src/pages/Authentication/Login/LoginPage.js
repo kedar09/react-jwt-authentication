@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import Cookies from "js-cookie";
 import { loginService } from "../../../services/authentiacation.service";
 import { useHistory } from "react-router";
+import Swal from "sweetalert2";
 
 const LoginPage = (props) => {
   const history = useHistory();
@@ -26,13 +27,44 @@ const LoginPage = (props) => {
           sameSite: "None",
           secure: true,
         });
+        Swal.fire({
+          title: "Login successfully!",
+          timer: 2000,
+          icon: "success",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
         history.push("/home-page");
+      } else if (result && result.message === "Wrong Password") {
+        Swal.fire({
+          title: "Wrong password!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else if (result && result.message === "User Not Found") {
+        Swal.fire({
+          title: "User not found!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else {
+        Swal.fire({
+          title: "Please try again later!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
       }
     } catch (error) {
       console.log("eeeeeeeeeee", error);
     }
   };
-  
+
   return (
     <div>
       <Card style={{ marginTop: 100, marginRight: 400, marginLeft: 400 }}>
