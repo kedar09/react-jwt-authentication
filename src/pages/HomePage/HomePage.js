@@ -3,12 +3,14 @@ import { Formik } from "formik";
 import Cookies from "js-cookie";
 import { Card, Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router";
-import { getUserProfileService } from "../../services/authentiacation.service";
+import {
+  getUserProfileService,
+  updateUserProfileService,
+} from "../../services/authentiacation.service";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 
 const HomePage = (props) => {
-  const [step, setStep] = useState(1);
-
   const history = useHistory();
   const [editProfile, setEditProfile] = useState(false);
   const [state, setState] = useState({
@@ -19,9 +21,22 @@ const HomePage = (props) => {
   });
 
   const logoutUser = () => {
-    Cookies.remove("token", { path: "" }); // removed!
-    Cookies.remove("userId", { path: "" }); // removed!
-    history.push("/");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to logout!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Cookies.remove("token", { path: "" }); // removed!
+        Cookies.remove("userId", { path: "" }); // removed!
+        history.push("/");
+      }
+    });
   };
 
   const getUserProfile = async () => {
@@ -39,7 +54,42 @@ const HomePage = (props) => {
     }
   };
 
-  const updateUserProfile = (values) => {};
+  const updateUserProfile = async (values) => {
+    try {
+      const payloadData = {
+        token: Cookies.get("token").replace(/"/g, ""),
+        payload: {
+          userProfileData: {
+            displayName: values.displayName,
+            phoneNumber: values.phoneNumber.toString(),
+          },
+          userId: values.userId,
+        },
+      };
+      const result = await updateUserProfileService(payloadData);
+      console.log("rrrrrrrr", result);
+      if (result.message === "User Profile updated successfully!") {
+        Swal.fire({
+          title: "Profile updated successfully!",
+          timer: 2000,
+          icon: "success",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+        setEditProfile(!editProfile)
+      } else {
+        Swal.fire({
+          title: "Please try again later!",
+          timer: 2000,
+          icon: "warning",
+          // timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      }
+    } catch (error) {
+      console.log("eeeeeeeeeee", error);
+    }
+  };
 
   useEffect(() => {
     getUserProfile();
@@ -62,7 +112,20 @@ const HomePage = (props) => {
               //   .max(100, "Password max 100 characters")
             })}
             onSubmit={(values) => {
-              console.log(values);
+              Swal.fire({
+                title: "Are you sure?",
+                text: "You want to update your profile!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Save",
+                cancelButtonText: "Cancel",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  updateUserProfile(values);
+                }
+              });
             }}
           >
             {(props) => (
@@ -116,7 +179,7 @@ const HomePage = (props) => {
                       props.handleSubmit();
                     }}
                   >
-                    Edit Profile
+                    Save Profile
                   </Button>
                   <Button
                     variant="danger"
