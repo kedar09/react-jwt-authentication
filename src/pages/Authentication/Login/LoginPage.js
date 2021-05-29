@@ -19,14 +19,9 @@ const LoginPage = (props) => {
       const result = await loginService(payloadData);
       console.log("rrrrrrrr", result);
       if (result && result.userId) {
-        Cookies.set("token", JSON.stringify(result.token), {
-          sameSite: "None",
-          secure: true,
-        });
-        Cookies.set("userId", JSON.stringify(result.userId), {
-          sameSite: "None",
-          secure: true,
-        });
+        Cookies.set("token", JSON.stringify(result.token));
+        Cookies.set("token", JSON.stringify(result.token));
+        Cookies.set("userId", JSON.stringify(result.userId));
         Swal.fire({
           title: "Login successfully!",
           timer: 2000,

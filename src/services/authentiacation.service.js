@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { API_URL } from "../config/config";
 
 export const loginService = async (payloadData) => {
