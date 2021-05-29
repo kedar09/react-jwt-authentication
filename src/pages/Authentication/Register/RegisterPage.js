@@ -62,7 +62,7 @@ const RegisterPage = (props) => {
   return (
     <div>
       <Card style={{ marginTop: 100, marginRight: 400, marginLeft: 400 }}>
-        <Card.Header className="text-center">Login to Briofeed</Card.Header>
+        <Card.Header className="text-center">Login to KEDAR09</Card.Header>
         <Card.Body>
           <Formik
             enableReinitialize={true}

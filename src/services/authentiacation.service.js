@@ -69,3 +69,21 @@ export const setNewPasswordService = async (payloadData) => {
     console.log("eeeeeeeeeee", error);
   }
 };
+
+export const getUserProfileService = async (payloadData) => {
+  try {
+    const result = await fetch(`${API_URL}/users/getUserProfile`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${payloadData.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payloadData.payload),
+    });
+    const jsonResponse = await result.json();
+    return jsonResponse;
+  } catch (error) {
+    console.log("eeeeeeeeeee", error);
+  }
+};

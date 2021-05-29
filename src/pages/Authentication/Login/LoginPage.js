@@ -19,9 +19,14 @@ const LoginPage = (props) => {
       const result = await loginService(payloadData);
       console.log("rrrrrrrr", result);
       if (result && result.userId) {
-        Cookies.set("token", JSON.stringify(result.token));
-        Cookies.set("token", JSON.stringify(result.token));
-        Cookies.set("userId", JSON.stringify(result.userId));
+        Cookies.set("token", JSON.stringify(result.token), {
+          sameSite: "None",
+          secure: true,
+        });
+        Cookies.set("userId", JSON.stringify(result.userId), {
+          sameSite: "None",
+          secure: true,
+        });
         Swal.fire({
           title: "Login successfully!",
           timer: 2000,
@@ -63,7 +68,7 @@ const LoginPage = (props) => {
   return (
     <div>
       <Card style={{ marginTop: 100, marginRight: 400, marginLeft: 400 }}>
-        <Card.Header className="text-center">Login to Briofeed</Card.Header>
+        <Card.Header className="text-center">Login to KEDAR09</Card.Header>
         <Card.Body>
           <Formik
             enableReinitialize={true}
