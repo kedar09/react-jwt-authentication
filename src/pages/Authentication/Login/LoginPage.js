@@ -17,7 +17,6 @@ const LoginPage = (props) => {
         password: values.password,
       };
       const result = await loginService(payloadData);
-      console.log("rrrrrrrr", result);
       if (result && result.userId) {
         Cookies.set("token", JSON.stringify(result.token), {
           sameSite: "None",
