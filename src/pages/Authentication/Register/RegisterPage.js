@@ -4,7 +4,7 @@ import { Form, Button, Card } from "react-bootstrap";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Cookies from "js-cookie";
-import { registerUserService } from "../../../services/authentiacation.service";
+import { registerUserService } from "../../../services/authentication.service";
 import { useHistory } from "react-router";
 import Swal from "sweetalert2";
 

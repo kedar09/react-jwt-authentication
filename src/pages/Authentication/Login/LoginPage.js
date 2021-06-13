@@ -3,7 +3,7 @@ import { Form, Button, Card } from "react-bootstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
-import { loginService } from "../../../services/authentiacation.service";
+import { loginService } from "../../../services/authentication.service";
 import { useHistory } from "react-router";
 import Swal from "sweetalert2";
 

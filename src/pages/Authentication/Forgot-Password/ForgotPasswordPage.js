@@ -3,7 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router";
-import { forgotPasswordService } from "../../../services/authentiacation.service";
+import { forgotPasswordService } from "../../../services/authentication.service";
 import Swal from "sweetalert2";
 
 const ForgotPasswordPage = (props) => {

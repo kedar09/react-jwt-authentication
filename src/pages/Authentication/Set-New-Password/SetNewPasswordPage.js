@@ -3,7 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useHistory, useParams } from "react-router";
-import { setNewPasswordService } from "../../../services/authentiacation.service";
+import { setNewPasswordService } from "../../../services/authentication.service";
 import Swal from "sweetalert2";
 
 const SetNewPasswordPage = (props) => {
